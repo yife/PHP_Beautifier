@@ -317,6 +317,21 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter
      */
     function t_whitespace($sTag) 
     {
+        $matches = "";
+        if($this->oBeaut->isPreviousTokenConstant(T_COMMENT)) {
+            $prevToken = $this->oBeaut->getPreviousTokenContent(1);
+            $tokenEnd = substr($prevToken,strlen($prevToken)-2);
+            if($tokenEnd=="*/") {
+                $minNL = 2;
+            }else{
+                $minNL = 1;
+            }
+        }else{
+            $minNL = 2;
+        }
+        if(preg_match_all("/\n/",$sTag,$matches)>=$minNL){
+            $this->oBeaut->addNewLineIndent();
+        }
     }
     /**
      * t_doc_comment 
