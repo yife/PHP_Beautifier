@@ -330,6 +330,9 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter
         }
         if(preg_match_all("/\r\n|\r|\n/",$sTag,$matches)>=$minNL){
             $this->oBeaut->addNewLineIndent();
+            $this->oBeaut->addedBlankLine = true;
+        } else {
+            $this->oBeaut->addedBlankLine = false;
         }
     }
     /**

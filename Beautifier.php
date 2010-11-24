@@ -85,6 +85,7 @@ class PHP_Beautifier implements PHP_Beautifier_Interface
 {
     // public
     
+    public $addedBlankLine = false;
     /**
      * Tokens created by the tokenizer
      * @var array
@@ -1778,8 +1779,10 @@ class PHP_Beautifier implements PHP_Beautifier_Interface
         for ($i = count($this->aOut) -1 ; $i >= 0 ; $i--) { // go backwards
             $cNow = &$this->aOut[$i];
             if (strlen(trim($cNow)) == 0) { // only space
-                array_pop($this->aOut); // delete it!
-                $pop++;
+                if (!$this->addedBlankLine || ($cNow!="\r" && $cNow!="\n")) {
+                    array_pop($this->aOut); // delete it!
+                    $pop++;
+                }
             } else { // we find something!
                 $cNow = rtrim($cNow); // rtrim out
                 break;
